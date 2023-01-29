@@ -7,8 +7,5 @@ export namespace SaveSensorMeasure {
         sensorIdentification: string
         sensorValue: string
         sensorTimeStamp: string
-        // sensorTenantId: string
-        // sensorEquipment: string
-        // sensorMeasureType: string
     }
 }
