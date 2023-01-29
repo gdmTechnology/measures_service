@@ -24,8 +24,24 @@ describe('SaveSensorMeasureRepository', () => {
         test('Should return a sensor measure on success', async () => {
             const sut = makeSut()
             const request = saveMeasureParams()
-            const account = await sut.save(request)
-            expect(account).toBeTruthy()
+            const sensorMeasure = await sut.save(request)
+            expect(sensorMeasure).toBeTruthy()
+        })
+    })
+
+    describe('list()', () => {
+        test('Should return a sensor measure list on success', async () => {
+            const sut = makeSut()
+            const request = saveMeasureParams()
+            await sut.save(request)
+            const list = await sut.list({ page: 1, limit: 1, sensorIdentification: 'sensorIdentification' })
+            expect(list.length).toBe(1)
+        })
+
+        test('Should return a empty list on success', async () => {
+            const sut = makeSut()
+            const list = await sut.list({ page: 1, limit: 1, sensorIdentification: 'sensorIdentification' })
+            expect(list.length).toBe(0)
         })
     })
 })
