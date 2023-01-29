@@ -12,13 +12,12 @@ export namespace SaveSensorMeasureRepository {
         sensorValue: string
     }
     export type Result = {
-        accountId: string
         sensorIdentification: string
         sensorTenantId: string
         sensorName: string
         sensorEquipment: string
         sensorMeasureType: string
-        sensorCurrentValue: string
+        sensorValue: string
         sensorTimeStamp: string
         createdAt: Date
         updateAt: Date
