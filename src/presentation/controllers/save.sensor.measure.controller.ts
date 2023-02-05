@@ -1,6 +1,6 @@
 import { Controller } from '@/presentation/protocols/controller'
 import { Validation } from '../protocols/validation'
-import { badRequest, serverError } from '../helpers/http.helper'
+import { badRequest, serverError, noContent } from '../helpers/http.helper'
 import { SaveSensorMeasure } from '@/domain/usecases'
 
 export class SaveSensorMeasureController implements Controller {
@@ -14,6 +14,7 @@ export class SaveSensorMeasureController implements Controller {
             const error = this.validation.validate(data)
             if (error) return badRequest(error)
             await this.saveSensorMeasure.handle(data)
+            return noContent()
         } catch (error) {
             return serverError(error)
         }

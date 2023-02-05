@@ -7,5 +7,9 @@ export default {
   mongoPort: process.env.MONGO_PORT || 27017,
   mongoDbName: process.env.MONGO_DB_NAME || 'rem',
   mongoPass: process.env.MONGO_PASS || 'rem2023',
-  mongoUser: process.env.MONGO_USER || 'rem'
+  mongoUser: process.env.MONGO_USER || 'rem',
+  kafkaClientId: process.env.KAFKA_CLIENTID || 'rem-kafka',
+  kafkaBrokerPort: process.env.KAFKA_BROKER_PORT || 9092,
+  kafkaBrokerHost: process.env.KAFKA_BROKER_HOST || 'broker',
+  kafkaGroupId: process.env.KAFKA_GROUP_ID || 'measures-service'
 }
