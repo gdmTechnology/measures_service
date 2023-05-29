@@ -9,29 +9,51 @@ pipeline {
 				'''
 			}
 		}
-		stage('Tests') {
+		stage("install node_modules") {
 			steps {
 				script {
-				sh 'npm i'
-				sh 'npm run test'
+					sh 'npm i'
+				}
+			}
+		}
+		stage('tests') {
+			steps {
+				script {
+					sh 'npm run test:ci'
 				}
 			}
 			post {
 				always {
-				step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/clover.xml', lineCoverageTargets: '100, 95, 50'])
+				step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml', lineCoverageTargets: '100, 95, 50'])
 				}
 			}
 		}
-		stage("killing old container") {
+		stage("stop container") {
 			steps {
-				sh 'sudo docker system prune --all'
+				sh 'docker stop measures_service || true'
 			}
 		}
-		stage("build") {
+		stage("remove old image") {
+			steps {
+				sh 'docker rmi measures-service || true'
+			}
+		}
+		stage("remove unused containers and images") {
+			steps {
+				sh 'docker system prune -af'
+			}
+		}
+		stage("build typescript") {
+			steps {
+				sh 'npm run build'
+			}
+		}
+		stage("build docker image") {
 			steps {
 				sh 'docker build -t measures-service .'
 			}
 		}
+
 		stage("run") {
 			steps {
 				sh '''
@@ -50,7 +72,7 @@ pipeline {
 					-e MONGO_USER=rem \
 					-p 3002:3002 \
 					--hostname measures_service \
-                    --network middleware-network \
+                    --network rem_network \
 					--restart always \
 					--name measures_service measures_service
 				'''
