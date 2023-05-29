@@ -74,7 +74,7 @@ pipeline {
 					--hostname measures_service \
                     --network rem_network \
 					--restart always \
-					--name measures_service measures_service
+					--name measures_service measures-service
 				'''
 			}
 		}
